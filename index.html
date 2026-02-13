@@ -138,7 +138,7 @@ border-radius:4px;
 
 /* penjepit */
 .hangingPhoto::before{
-content:"📌";
+content:"";
 position:absolute;
 top:-14px;
 left:50%;
@@ -195,6 +195,17 @@ min-height:320px;
 <div id="cameraPage" class="hidden">
 <h3>Kamera</h3>
 <video id="video" autoplay playsinline></video>
+<div id="countdown" 
+style="position:absolute;
+top:40%;
+left:50%;
+transform:translate(-50%,-50%);
+font-size:60px;
+font-weight:bold;
+color:white;
+text-shadow:0 0 20px black;
+display:none;">
+</div>
 <div class="btns">
 <button onclick="switchCamera()">Switch</button>
 <button onclick="takePhoto(0)">Foto</button>
@@ -256,7 +267,7 @@ stream=await navigator.mediaDevices.getUserMedia({
 video:{
 facingMode:currentFacing,
 width:{ideal:1000},
-height:{ideal:720}
+height:{ideal:970}
 }
 });
 
@@ -313,43 +324,49 @@ homePage.classList.remove("hidden");
 if(stream)stream.getTracks().forEach(t=>t.stop());
 }
 
-/* =====================
-   TAKE PHOTO SCRAPBOOK
-=====================*/
 
 
-function takePhoto(delay=0){
+async function takePhoto(delay=0){
+
+const countdown=document.getElementById("countdown");
 
 if(delay>0){
-alert("Foto akan diambil dalam "+delay+" detik...");
+
+countdown.style.display="block";
+
+for(let i=delay;i>0;i--){
+countdown.innerText=i;
+await new Promise(r=>setTimeout(r,1000));
 }
 
-setTimeout(()=>{
+countdown.style.display="none";
+}
 
 canvas.width=video.videoWidth;
 canvas.height=video.videoHeight;
 
 let ctx=canvas.getContext("2d");
 
-/* FIX kamera depan mirror */
-if(currentFacing==="object"){
+ctx.imageSmoothingEnabled=true;
+ctx.imageSmoothingQuality="high";
+
+/* fix mirror kamera depan */
+if(typeof currentFacing==="object"){
 ctx.translate(canvas.width,0);
 ctx.scale(-1,1);
 }
 
-ctx.drawImage(video,0,0);
+ctx.drawImage(video,0,0,canvas.width,canvas.height);
 
-let src=canvas.toDataURL("image/png");
+let src=canvas.toDataURL("image/png",1.0);
 
 photos.push(src);
 
-alert("Foto berhasil diambil cek pada menu galeri foto");
+showToast(" Foto berhasil diambil cek pada menu galeri");
 
 renderGallery();
-
-},delay*1000);
-
 }
+
 
 
 
@@ -598,6 +615,32 @@ b.style.transform=`scale(${scale}) rotate(${Math.random()*16-8}deg)`;
 
 },600);
 
+}
+
+function showToast(text){
+
+let t=document.createElement("div");
+
+t.innerText=text;
+
+t.style.position="fixed";
+t.style.bottom="40px";
+t.style.left="50%";
+t.style.transform="translateX(-50%)";
+t.style.background="#f472b6";
+t.style.color="white";
+t.style.padding="12px 20px";
+t.style.borderRadius="20px";
+t.style.fontWeight="bold";
+t.style.boxShadow="0 5px 15px rgba(0,0,0,.2)";
+t.style.zIndex="999";
+
+document.body.appendChild(t);
+
+setTimeout(()=>{
+t.style.opacity="0";
+setTimeout(()=>t.remove(),400);
+},2000);
 }
 
 
