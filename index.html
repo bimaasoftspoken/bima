@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>valentine by bimaaa</title>
-
+<meta name="color-scheme" content="light only">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,sans-serif}
 body{min-height:100vh;display:flex;justify-content:center;align-items:center;background:#fff1f2;color:#7a2848;overflow:hidden}
@@ -15,8 +15,37 @@ body{min-height:100vh;display:flex;justify-content:center;align-items:center;bac
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
 .menuGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
 .btns{display:flex;gap:6px;margin-top:6px}
-button{flex:1;padding:14px;border:none;border-radius:14px;background:#f9a8d4;color:#7a2848;font-size:15px;font-weight:bold;cursor:pointer}
-input{width:100%;padding:14px;border-radius:15px;border:none;background:#ffe4e6;text-align:center;font-size:22px;letter-spacing:6px;margin-bottom:10px}
+button{
+flex:1;
+padding:16px;
+border:none;
+border-radius:18px;
+background:#ec4899;
+color:#ffffff;
+font-size:15px;
+font-weight:bold;
+cursor:pointer;
+box-shadow:0 4px 10px rgba(0,0,0,.15);
+transition:.2s;
+}
+
+button:active{
+transform:scale(.95);
+}
+
+input{
+width:100%;
+padding:16px;
+border-radius:18px;
+border:none;
+background:#fce7f3;
+color:#7a2848;
+text-align:center;
+font-size:24px;
+font-weight:bold;
+letter-spacing:8px;
+margin-bottom:14px;
+}
 video{width:100%;border-radius:18px;margin-top:10px}
 .gallery{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;justify-content:center}
 .polaroid{background:white;padding:6px;border-radius:8px;cursor:pointer}
